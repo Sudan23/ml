@@ -1,0 +1,94 @@
+name: ML — Validate Notebook Submission
+
+on:
+  push:
+    branches: [ main, 'week*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-notebooks:
+    name: Validate Jupyter Notebooks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout student repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install --quiet \
+            nbformat \
+            nbconvert \
+            scikit-learn \
+            pandas \
+            numpy \
+            matplotlib \
+            seaborn
+
+      - name: Check notebooks have been executed (cell outputs present)
+        run: |
+          python3 << 'EOF'
+          import nbformat, os, sys, glob
+
+          notebooks = glob.glob('**/*.ipynb', recursive=True)
+          if not notebooks:
+              print("❌ No .ipynb notebooks found in this repository!")
+              sys.exit(1)
+
+          print(f"Found {len(notebooks)} notebook(s):")
+          errors = []
+
+          for nb_path in notebooks:
+              with open(nb_path) as f:
+                  nb = nbformat.read(f, as_version=4)
+
+              code_cells = [c for c in nb.cells if c.cell_type == 'code']
+              executed = [c for c in code_cells if c.outputs]
+
+              pct = (len(executed) / len(code_cells) * 100) if code_cells else 0
+              status = "✅" if pct >= 60 else "❌"
+              print(f"  {status} {nb_path}: {len(executed)}/{len(code_cells)} code cells executed ({pct:.0f}%)")
+
+              if pct < 60:
+                  errors.append(f"{nb_path}: Only {pct:.0f}% of cells have outputs. Run all cells before submitting.")
+
+          if errors:
+              print("\n❌ Submission issues found:")
+              for e in errors:
+                  print(f"  - {e}")
+              sys.exit(1)
+          else:
+              print("\n✅ All notebooks look good!")
+          EOF
+
+      - name: Check for REFLECTION.md
+        run: |
+          if [ ! -f "REFLECTION.md" ]; then
+            echo "❌ REFLECTION.md is missing!"
+            exit 1
+          fi
+          LINES=$(wc -l < REFLECTION.md)
+          if [ "$LINES" -lt 5 ]; then
+            echo "❌ REFLECTION.md is too short ($LINES lines). Minimum 5 lines expected."
+            exit 1
+          fi
+          echo "✅ REFLECTION.md present ($LINES lines)"
+
+      - name: Commit activity check
+        run: |
+          COUNT=$(git log --oneline --since="7 days ago" | wc -l)
+          echo "📊 Commits this week: $COUNT"
+
+      - name: Execute notebook (smoke test)
+        run: |
+          for nb in $(find . -name "*.ipynb" | head -3); do
+            echo "Running: $nb"
+            jupyter nbconvert --to notebook --execute "$nb" --output /tmp/test_out.ipynb \
+              --ExecutePreprocessor.timeout=120 || echo "⚠️ Notebook execution failed: $nb"
+          done
