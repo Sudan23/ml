@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Learning (UFCFAS-15-2) · Week 1 Slides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --sky: #38bdf8;
+      --indigo: #818cf8;
+      --amber: #facc15;
+      --emerald: #34d399;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+    }
+
+    /* Presentation Container */
+    #deck-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(15px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      background-color: var(--bg);
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    /* Slide Header */
+    .slide-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .slide-badge {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--sky);
+      text-transform: uppercase;
+    }
+
+    .slide-institution {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .slide-title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .slide-divider {
+      height: 2px;
+      background: linear-gradient(90deg, var(--sky), var(--indigo), transparent);
+      width: 100%;
+      margin-bottom: 28px;
+    }
+
+    /* Content Layouts */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      flex: 1;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      flex: 1;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      transition: border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--sky);
+    }
+
+    .card-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--indigo);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .card ul {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card li {
+      font-size: 1.05rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .card li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--sky);
+      font-weight: bold;
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    /* Code & Callouts */
+    pre {
+      background-color: #0b1120;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--sky);
+    }
+
+    .quote-box {
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 4px solid var(--sky);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 20px;
+      font-size: 1.15rem;
+      color: #e2e8f0;
+      font-style: italic;
+    }
+
+    /* Controls & Navigation */
+    #progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--sky), var(--indigo));
+      transition: width 0.3s ease;
+      z-index: 100;
+    }
+
+    #controls {
+      position: fixed;
+      bottom: 24px;
+      right: 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 100;
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      border-radius: 9999px;
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-nav {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .btn-nav:hover {
+      color: var(--text);
+    }
+
+    #counter {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .highlight {
+      color: var(--amber);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="deck-container">
+
+    <!-- SLIDE 1 -->
+    <div class="slide active">
+      <div class="slide-meta">
+        <span class="slide-badge">UFCFAS-15-2 · Level 6</span>
+        <span class="slide-institution">The British College Nepal · UWE Bristol</span>
+      </div>
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 960px;">
+        <div style="width: 60px; height: 6px; background: var(--sky); border-radius: 3px; margin-bottom: 24px;"></div>
+        <h1 style="font-size: 3.6rem; font-weight: 900; line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.03em;">
+          Machine Learning
+        </h1>
+        <h2 style="font-size: 1.8rem; font-weight: 600; color: var(--indigo); margin-bottom: 24px;">
+          Week 1: Module Welcome & Linear Regression Fundamentals
+        </h2>
+        <p style="font-size: 1.25rem; color: var(--muted); line-height: 1.6; margin-bottom: 32px;">
+          <strong>Lecturer:</strong> Sudan Pudasaini &nbsp;|&nbsp; <strong>UWE Module Leader:</strong> Prof. Jun Hong
+        </p>
+        <div class="quote-box" style="margin-top: 0;">
+          "From intuition to math, from scratch in NumPy to production in Scikit-Learn."
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-badge">Pedagogy</span>
+        <span class="slide-institution">Course Philosophy</span>
+      </div>
+      <h2 class="slide-title">Welcome & The 3 Core Pillars</h2>
+      <div class="slide-divider"></div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-tag">Pillar 1</div>
+          <div class="card-title">Grounded Intuition</div>
+          <ul>
+            <li>No black-box memorization.</li>
+            <li>Understand the geometry and calculus behind optimization.</li>
+            <li>Why does gradient descent guarantee finding the minimum for MSE?</li>
+            <li>Build mental models before writing library calls.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">Pillar 2</div>
+          <div class="card-title">Production Craft</div>
+          <ul>
+            <li>Implement algorithms from scratch in NumPy.</li>
+            <li>Transition to clean, robust Scikit-Learn pipelines.</li>
+            <li>Containerized, reproducible experiments with Docker.</li>
+            <li>Vectorized, high-performance Python code.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">Pillar 3</div>
+          <div class="card-title">Critical Evaluation</div>
+          <ul>
+            <li>High training accuracy is often an illusion.</li>
+            <li>Audit models for overfitting, data leakage, and dataset bias.</li>
+            <li>Diagnose real-world edge-case failures.</li>
+            <li>Measure performance honestly on held-out test splits.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-badge">Curriculum</span>
+        <span class="slide-institution">12-Week Roadmap</span>
+      </div>
+      <h2 class="slide-title">Course Architecture: Where We Are Headed</h2>
+      <div class="slide-divider"></div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-tag">Weeks 1–3</div>
+          <div class="card-title">Foundations</div>
+          <ul>
+            <li><strong>W1:</strong> Linear Regression & Gradient Descent</li>
+            <li><strong>W2:</strong> Logistic Regression & Decision Boundaries</li>
+            <li><strong>W3:</strong> ML Workflow, Data Preprocessing & Ethics</li>
+            <li>Datasets: SUV and Titanic with Scikit-Learn</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">Weeks 4–7</div>
+          <div class="card-title">Classics & Ensembles</div>
+          <ul>
+            <li><strong>W4–5:</strong> Support Vector Machines (SVM) & Kernels</li>
+            <li><strong>W6:</strong> Decision Trees & Random Forests (Bagging)</li>
+            <li><strong>W7:</strong> Boosting & AdaBoost</li>
+            <li><span class="highlight">Proposal Due (10%)</span> in Week 7 lab</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">Weeks 8–12</div>
+          <div class="card-title">Deep Learning</div>
+          <ul>
+            <li><strong>W8:</strong> Artificial Neural Networks (ANN)</li>
+            <li><strong>W9:</strong> Convolutional Neural Networks (CNN)</li>
+            <li><span class="highlight">Individual Hand-in (30%)</span> in Week 9</li>
+            <li><strong>W10–12:</strong> Final Group DL Project (60%)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-badge">Deliverables</span>
+        <span class="slide-institution">Assessment Strategy</span>
+      </div>
+      <h2 class="slide-title">Assessments & Accountability</h2>
+      <div class="slide-divider"></div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-tag">Weight: 10%</div>
+          <div class="card-title">Group Proposal</div>
+          <ul>
+            <li><strong>Deadline:</strong> Week 7 Lab</li>
+            <li>Form teams of 3–4 members.</li>
+            <li>Define problem scope and choose real-world dataset.</li>
+            <li>Outline baseline model and proposed Deep Learning architecture.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">Weight: 30%</div>
+          <div class="card-title">Individual Assignment</div>
+          <ul>
+            <li><strong>Deadline:</strong> Week 9</li>
+            <li>Apply 2 distinct algorithms to the same dataset.</li>
+            <li>Perform data preprocessing, validation, and hyperparameter tuning.</li>
+            <li>Produce a comparative technical report.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">Weight: 60%</div>
+          <div class="card-title">Group Project & Defense</div>
+          <ul>
+            <li><strong>Deadline:</strong> Week 12</li>
+            <li>End-to-end Deep Learning system (CNN / DNN).</li>
+            <li>Live team presentation and codebase defense.</li>
+            <li><span class="highlight">Git commit history tracks individual effort!</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-badge">Tooling</span>
+        <span class="slide-institution">Modern Delivery (neo_ML)</span>
+      </div>
+      <h2 class="slide-title">The neo_ML Modernized Stack</h2>
+      <div class="slide-divider"></div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-tag">Environment</div>
+          <div class="card-title">Dockerized Labs</div>
+          <ul>
+            <li>Python 3.12, JupyterLab 4, Scikit-Learn locked in.</li>
+            <li>No OS version headaches or broken pip environments.</li>
+            <li>Pull and run with a single terminal command.</li>
+          </ul>
+          <pre><code>docker pull ghcr.io/lbu-courses/ml-course:week1
+docker run -p 8888:8888 -v $(pwd):/workspace ...</code></pre>
+        </div>
+        <div class="card">
+          <div class="card-tag">CI/CD</div>
+          <div class="card-title">GitHub Actions</div>
+          <ul>
+            <li>Submissions via individual student repos.</li>
+            <li>Automated runner executes sanity checks.</li>
+            <li>Verifies code executed (outputs must exist!).</li>
+            <li>Tracks commit frequency and cadence.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">AI Pedagogy</div>
+          <div class="card-title">Pairing with Rigor</div>
+          <ul>
+            <li>GitHub Copilot and Gemini encouraged for syntax & exploration.</li>
+            <li>Never submit AI outputs you cannot explain.</li>
+            <li>Mandatory weekly <code>REFLECTION.md</code> logs.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-badge">Foundations</span>
+        <span class="slide-institution">Core ML Theory</span>
+      </div>
+      <h2 class="slide-title">Traditional Programming vs Machine Learning</h2>
+      <div class="slide-divider"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-tag">Rule-Based</div>
+          <div class="card-title">Traditional Programming</div>
+          <pre><code>Data + Rules (Code)  ==>  Answers</code></pre>
+          <ul style="margin-top: 16px;">
+            <li>Software engineers craft every condition manually.</li>
+            <li>Brittle when facing complex, high-dimensional patterns.</li>
+            <li>Example: Thousands of hardcoded regex rules to detect spam.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">Inductive</div>
+          <div class="card-title">Machine Learning</div>
+          <pre><code>Data + Answers (Labels)  ==>  Rules (Model)</code></pre>
+          <ul style="margin-top: 16px;">
+            <li>Algorithms optimize internal weights (&theta;) directly from data.</li>
+            <li>Learns underlying patterns and generalizes to unseen inputs.</li>
+            <li>Example: Model automatically learns spam probability features.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-badge">Regression</span>
+        <span class="slide-institution">Hypothesis Representation</span>
+      </div>
+      <h2 class="slide-title">Linear Regression: The Hypothesis Function</h2>
+      <div class="slide-divider"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-tag">Univariate (1 Feature)</div>
+          <div class="card-title">Simple Linear Line</div>
+          <pre><code>h_θ(x) = θ_0 + θ_1 * x_1</code></pre>
+          <ul style="margin-top: 16px;">
+            <li><code>θ_0</code>: Intercept (bias)</li>
+            <li><code>θ_1</code>: Slope (feature weight)</li>
+            <li>Input: Single attribute (e.g. House Size)</li>
+            <li>Output: Continuous prediction (e.g. Price)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">Multivariate (n Features)</div>
+          <div class="card-title">Matrix Vectorization</div>
+          <pre><code>h_θ(x) = θ_0*x_0 + θ_1*x_1 + ... + θ_n*x_n
+y_hat = X · θ</code></pre>
+          <ul style="margin-top: 16px;">
+            <li>Dummy feature <code>x_0 = 1</code> added as bias column.</li>
+            <li><code>X</code>: Matrix of shape <code>(m, n+1)</code></li>
+            <li><code>θ</code>: Parameter vector of shape <code>(n+1, 1)</code></li>
+            <li>Vectorized dot product computes all predictions in one operation.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-badge">Optimization</span>
+        <span class="slide-institution">Loss Formulation</span>
+      </div>
+      <h2 class="slide-title">Measuring Error: Mean Squared Error (MSE)</h2>
+      <div class="slide-divider"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-tag">Cost Function</div>
+          <div class="card-title">J(θ) Loss Formula</div>
+          <pre><code>J(θ) = (1 / 2m) * Σ (h_θ(x^(i)) - y^(i))^2</code></pre>
+          <ul style="margin-top: 16px;">
+            <li>Residual: Difference between predicted and true value.</li>
+            <li>Squaring penalizes large mistakes much more than minor ones.</li>
+            <li>Division by 2 cancels out neatly when differentiating.</li>
+            <li><strong>Objective:</strong> Find parameters &theta; that minimize <code>J(θ)</code>.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">Geometry</div>
+          <div class="card-title">Strict Convexity (The Bowl)</div>
+          <ul style="margin-top: 10px;">
+            <li>MSE for linear regression is a <strong>strictly convex function</strong>.</li>
+            <li>Visual shape: A smooth, 3D bowl with a single bottom point.</li>
+            <li><span class="highlight">Zero local minima traps!</span></li>
+            <li>Any local minimum found is guaranteed to be the global minimum.</li>
+          </ul>
+          <div class="quote-box">
+            "Gradient descent on a convex surface is guaranteed to converge to the optimal solution."
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-badge">Algorithms</span>
+        <span class="slide-institution">Gradient Descent</span>
+      </div>
+      <h2 class="slide-title">Optimization: Gradient Descent</h2>
+      <div class="slide-divider"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-tag">Intuition</div>
+          <div class="card-title">Stepping Down the Foggy Valley</div>
+          <ul style="margin-top: 10px;">
+            <li>You stand on a hill wrapped in dense fog.</li>
+            <li>Feel the slope beneath your feet (compute partial derivative).</li>
+            <li>Take a step in the direction of steepest descent (-&nabla;J).</li>
+            <li>Repeat until the ground becomes completely flat.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">The Update Rule</div>
+          <div class="card-title">Simultaneous Parameter Update</div>
+          <pre><code>θ_j := θ_j - α * (1/m) * Σ (h_θ(x^(i)) - y^(i)) * x_j^(i)</code></pre>
+          <ul style="margin-top: 16px;">
+            <li><code>α</code> (Alpha): Learning rate / step size.</li>
+            <li>All parameters <code>θ_0, θ_1, ..., θ_n</code> are updated simultaneously.</li>
+            <li>Stop when cost reduction is below tolerance &epsilon;.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-badge">Hyperparameters</span>
+        <span class="slide-institution">Tuning Step Size</span>
+      </div>
+      <h2 class="slide-title">The Learning Rate (&alpha;): Step Size Matters</h2>
+      <div class="slide-divider"></div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-tag">α Too Small</div>
+          <div class="card-title">e.g. 0.00001</div>
+          <ul>
+            <li>Steps are tiny.</li>
+            <li>Takes tens of thousands of epochs to converge.</li>
+            <li>Painfully slow execution.</li>
+          </ul>
+        </div>
+        <div class="card" style="border-color: var(--sky);">
+          <div class="card-tag" style="color: var(--emerald);">Optimal α</div>
+          <div class="card-title" style="color: var(--sky);">e.g. 0.01 / 0.1</div>
+          <ul>
+            <li>Confident downhill strides.</li>
+            <li>Steps naturally shrink as the gradient flattens near the minimum.</li>
+            <li>Smooth, efficient convergence.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag" style="color: #f87171;">α Too Large</div>
+          <div class="card-title" style="color: #f87171;">e.g. 2.5</div>
+          <ul>
+            <li>Overshoots the valley floor.</li>
+            <li>Bounces higher and higher up opposite walls.</li>
+            <li><span class="highlight">Diverges to infinity!</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11 -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-badge">Code Comparison</span>
+        <span class="slide-institution">NumPy vs Scikit-Learn</span>
+      </div>
+      <h2 class="slide-title">From Scratch to Production</h2>
+      <div class="slide-divider"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-tag">From Scratch (NumPy)</div>
+          <div class="card-title">Vectorized Implementation</div>
+          <pre><code>def gradient_descent(X, y, alpha=0.01, iters=1000):
+    m = len(y)
+    X_b = np.c_[np.ones((m, 1)), X]
+    theta = np.zeros((X_b.shape[1], 1))
+    
+    for _ in range(iters):
+        grads = (1/m) * X_b.T.dot(X_b.dot(theta) - y)
+        theta = theta - alpha * grads
+        
+    return theta</code></pre>
+        </div>
+        <div class="card">
+          <div class="card-tag">Production (Scikit-Learn)</div>
+          <div class="card-title">Production API</div>
+          <pre><code>from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+print("MSE:", mean_squared_error(y_test, y_pred))
+print("Weights:", model.coef_, model.intercept_)</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12 -->
+    <div class="slide">
+      <div class="slide-meta">
+        <span class="slide-badge">Hands-On</span>
+        <span class="slide-institution">Lab Action Items</span>
+      </div>
+      <h2 class="slide-title">Today's Lab Roadmap</h2>
+      <div class="slide-divider"></div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-tag">Step 1</div>
+          <div class="card-title">Launch Environment</div>
+          <ul>
+            <li>Run Docker container or start local JupyterLab.</li>
+            <li>Verify Python 3.12, NumPy, Pandas, Scikit-Learn.</li>
+            <li>Access at <code>http://localhost:8888</code>.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">Step 2</div>
+          <div class="card-title">Practical 1 Exercises</div>
+          <ul>
+            <li>Open <code>linear-regression-sklearn-gradient-descent.ipynb</code>.</li>
+            <li>Implement Gradient Descent from scratch.</li>
+            <li>Plot cost reduction curve <code>J(θ)</code> over iterations.</li>
+            <li>Compare learned parameters with Scikit-Learn.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-tag">Step 3</div>
+          <div class="card-title">Push & Reflect</div>
+          <ul>
+            <li>Run all cells (outputs must be visible).</li>
+            <li>Create <code>SETUP.md</code> and <code>REFLECTION.md</code>.</li>
+            <li>Push to your personal GitHub Classroom repository.</li>
+            <li>Verify green checkmark in GitHub Actions.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="progress-bar"></div>
+
+  <div id="controls">
+    <button class="btn-nav" id="btn-prev" title="Previous Slide (Left Arrow)">❮</button>
+    <span id="counter">1 / 12</span>
+    <button class="btn-nav" id="btn-next" title="Next Slide (Right Arrow)">❯</button>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('btn-prev');
+    const nextBtn = document.getElementById('btn-next');
+    const counter = document.getElementById('counter');
+    const progressBar = document.getElementById('progress-bar');
+    let currentIndex = 0;
+
+    function showSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= slides.length) index = slides.length - 1;
+      currentIndex = index;
+
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === currentIndex);
+      });
+
+      counter.textContent = `${currentIndex + 1} / ${slides.length}`;
+      progressBar.style.width = `${((currentIndex + 1) / slides.length) * 100}%`;
+    }
+
+    prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+    nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        showSlide(currentIndex + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        showSlide(currentIndex - 1);
+      } else if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      }
+    });
+
+    showSlide(0);
+  </script>
+</body>
+</html>
