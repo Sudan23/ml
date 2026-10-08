@@ -6,7 +6,7 @@ FROM python:3.12-slim-bookworm
 
 LABEL org.opencontainers.image.title="ML Course — Week 1"
 LABEL org.opencontainers.image.description="Machine Learning course, JupyterLab + sklearn environment"
-LABEL org.opencontainers.image.source="https://github.com/lbu-courses/ml-course"
+LABEL org.opencontainers.image.source="https://github.com/Sudan23/ml"
 
 # System deps
 RUN apt-get update && apt-get install -y \
@@ -50,6 +50,6 @@ RUN mkdir -p /home/student/.jupyter && \
 
 EXPOSE 8888
 
-# Students run: docker run -p 8888:8888 -v $(pwd):/home/student/notebooks/mywork ghcr.io/lbu-courses/ml-course:week1
+# Students run: docker run -p 8888:8888 -v $(pwd):/home/student/notebooks/mywork ghcr.io/sudan23/ml:week1
 # Then open: http://localhost:8888
 CMD ["jupyter", "lab", "--notebook-dir=/home/student/notebooks"]

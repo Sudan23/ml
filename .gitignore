@@ -20,3 +20,6 @@ venv/
 # IDEs
 .idea/
 .vscode/
+
+# Office temporary lock files
+~$*

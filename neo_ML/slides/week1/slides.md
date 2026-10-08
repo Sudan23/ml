@@ -128,7 +128,7 @@ We meet **three times every week**. Each session has a distinct, purposeful role
 │ • Conceptual foundation │ • Mathematical intuition│ • Practical coding lab  │
 │ • Architecture & trade- │ • Algorithm mechanics   │ • Vectorized NumPy /    │
 │   offs                  │ • Code walkthroughs     │   Scikit-Learn pipelines│
-│ • Real-world relevance  │ • Edge cases & pitfalls │ • GitHub Classroom push │
+│ • Real-world relevance  │ • Edge cases & pitfalls │ • GitHub Org & Orbund   │
 └─────────────────────────┴─────────────────────────┴─────────────────────────┘
 ```
 
@@ -162,7 +162,7 @@ As final-year / Level 6 computing students, university standards require:
 * 🔑 **1. Week 0 Environment Setup by Tomorrow:**  
   Docker and GitHub accounts must be operational before Class 2. No exceptions.
 * 📦 **2. Visible Cell Execution on Submissions:**  
-  Notebooks pushed to GitHub Classroom **must have executed cell outputs**. Blank cells = zero grade.
+  Notebooks pushed to the **course GitHub Organization** and submitted via **Orbund** must have executed cell outputs. Blank cells = zero grade.
 * 🌿 **3. Genuine Git Commit Cadence:**  
   Work incrementally with descriptive commit messages. A single mass-upload 10 minutes before the deadline is a major academic red flag.
 * 🤝 **4. Zero Team Ghosting:**  
@@ -193,11 +193,11 @@ As final-year / Level 6 computing students, university standards require:
 │ 1. Group Project Proposal (10%)        Due: Week 7 (Lab)    │
 │    Problem definition, dataset choice, baseline architecture│
 ├─────────────────────────────────────────────────────────────┤
-│ 2. Individual Assignment (30%)         Due: Week 9          │
+│ 2. Individual Assignment (30%)         Due: Week 9 (Orbund) │
 │    Comparative study: 2 distinct ML algorithms on 1 dataset │
 │    Data pipeline, hyperparameter tuning, written report     │
 ├─────────────────────────────────────────────────────────────┤
-│ 3. Group Project & Defense (60%)       Due: Week 12         │
+│ 3. Group Project & Defense (60%)       Due: Week 12 (Orbund)│
 │    End-to-end Deep Learning system (CNN / DNN application)  │
 │    Full GitHub repo + working demo + team presentation      │
 └─────────────────────────────────────────────────────────────┘
@@ -212,11 +212,11 @@ To ensure a smooth, industry-aligned experience, we've layered `neo_ML` on top:
 * 🐳 **Dockerized Labs (No Environment Collisions):**
   Pre-built container with Python 3.12, JupyterLab 4, Scikit-Learn, Pandas, NumPy, and Seaborn.
   ```bash
-  docker pull ghcr.io/lbu-courses/ml-course:week1
-  docker run -it -p 8888:8888 -v $(pwd):/workspace ghcr.io/lbu-courses/ml-course:week1
+  docker pull ghcr.io/sudan23/ml:week1
+  docker run -it -p 8888:8888 -v $(pwd):/workspace ghcr.io/sudan23/ml:week1
   ```
-* 🐙 **GitHub Classroom & Automated Validation:**
-  Every assignment has a repository; automated actions verify notebook execution on every push.
+* 🐙 **GitHub Organization & Orbund:**
+  Code lives in student repositories under the **course GitHub Organization** with CI/CD checks; official grading and assessment submissions are managed through **Orbund**.
 * 💻 **VS Code & Local Tooling:**
   Use VS Code with the Python & Jupyter extensions or your preferred IDE.
 
@@ -254,11 +254,11 @@ We encourage you to use it — **with strict rules of engagement**:
 
 Complete these **before our next session**:
 
-1. [ ] **Join GitHub Classroom:** Accept the invite link shared in today's class chat.
+1. [ ] **Join Course GitHub Org & Access Orbund:** Accept the GitHub Org invite and ensure your Orbund course access is verified.
 2. [ ] **Apply for GitHub Student Developer Pack:** Get free GitHub Copilot access ([education.github.com/pack](https://education.github.com/pack)).
 3. [ ] **Install Docker Desktop:** Verify by running `docker --version`.
 4. [ ] **Pull the Week 1 Image:**  
-   `docker pull ghcr.io/lbu-courses/ml-course:week1`
+   `docker pull ghcr.io/sudan23/ml:week1`
 5. [ ] **Read the Onboarding Guide:**  
    Check [`neo_ML/onboarding/onboarding.md`](file:///Users/sudan/Teaching/Current/ML/neo_ML/onboarding/onboarding.md) in the course repository.
 
@@ -274,7 +274,7 @@ Complete these **before our next session**:
 * **Class 3 (Lab Session):**
   * Vectorized Gradient Descent from scratch in NumPy
   * Fitting models with `sklearn.linear_model.LinearRegression`
-  * First submission to GitHub Classroom!
+  * First repository push to GitHub Org and setup verification on Orbund!
 
 ---
 
@@ -283,7 +283,7 @@ Complete these **before our next session**:
 ### Let's open the floor!
 
 * Questions on the syllabus, schedule, or assessments?
-* Questions on Docker or GitHub Classroom?
+* Questions on Docker, GitHub Organization, or Orbund?
 * Questions on AI policies or team allocations?
 
 **Lecturer:** Sudan Pudasaini  

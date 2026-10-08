@@ -1,10 +1,10 @@
 # 🤖 Machine Learning (UFCFAS-15-2)
 ## Week 0 — Student Onboarding Guide
-**The British College Nepal · 2025–26**
+**The British College Nepal · 2026–27**
 
 | | |
 |---|---|
-| **Awarding University** | UWE Bristol (Level 5) |
+| **Awarding University** | UWE Bristol (Level 6) |
 | **Delivered at** | The British College Nepal |
 | **Your Lecturer** | Sudan Pudasaini |
 
@@ -12,9 +12,9 @@
 
 Welcome to **Machine Learning**. This module is about building real ML systems — not just theory. You'll write Python code, train models, evaluate them, and think critically about what they actually learn.
 
-This year we're adding a modern layer on top: **Docker** for consistent environments, **GitHub** for submission and accountability, and **AI coding tools** to help you explore faster — but never to replace your understanding.
+This year we're adding a modern layer on top: **Docker** for consistent environments, **GitHub Organization** for code and team accountability, **Orbund** for formal course submissions, and **AI coding tools** to help you explore faster — but never to replace your understanding.
 
-Before your first session on **October 5**, complete this setup. Everything is **free**.
+Before our hands-on lab sessions, complete this setup. Everything is **free**.
 
 ---
 
@@ -22,14 +22,13 @@ Before your first session on **October 5**, complete this setup. Everything is *
 
 | Tool | What For | Cost |
 |------|----------|------|
-| **Docker Desktop** | Run JupyterLab locally — no JupyterHub login issues | Free |
-| **GitHub** | Submit notebooks; track your contributions to group project | Free |
-| **VS Code** | Edit Python and notebooks outside Jupyter | Free |
+| **Docker Desktop** | Run JupyterLab locally — no server downtime or pip conflicts | Free |
+| **GitHub Organization** | Personal and group code repos; tracks your contributions | Free |
+| **Orbund Portal** | Official TBC student portal for announcements, grades & submissions | Free |
+| **VS Code** | Edit Python scripts and notebooks outside Jupyter | Free |
 | **GitHub Copilot** | AI autocomplete for Python/ML code | Free (student) |
 | **Gemini / OpenCode** | AI for exploring ML concepts and architectures | Free |
 | **Google Colab** *(optional)* | GPU access for deep learning weeks | Free |
-
-> **Note on JupyterHub:** The UWE CSCT JupyterHub is available as a remote backup, but Docker gives you a local, always-available environment that works from anywhere — including Nepal.
 
 ---
 
@@ -46,20 +45,22 @@ Before your first session on **October 5**, complete this setup. Everything is *
 
 ---
 
-### 2. Join GitHub Classroom (ML)
+### 2. Join the Course GitHub Organization & Orbund
 
-Sudan Pudasaini will share the invite link in the first class.  
-Once you accept:
-- A personal repo is created: `ml-2025-<your-github-username>`
-- Each week, your completed notebooks go here — **all cells must be executed (outputs visible)**
+Sudan Pudasaini will share the GitHub Organization invite link in class.  
+Once you join:
+- Create your personal course repo: `ml-2026-<your-github-username>`
+- Each week, your completed notebooks are pushed here — **all cells must be executed (outputs visible)**
+- Official assessment briefs, deadlines, and grade records are published on **Orbund**
+- Formal assessment reports and submission archives will be uploaded directly through **Orbund**
 
-> 📋 Group project teams will share a **separate group repo** — set up in Week 5.
+> 📋 Group project teams will create a **shared group repo** in the organization in Week 5.
 
 ---
 
 ### 3. Install Docker Desktop
 
-Each week you'll pull a pre-built image with Python, JupyterLab, and all ML libraries already installed. No more `pip install` errors or version conflicts.
+Each week you'll pull a pre-built image with Python, JupyterLab, and all ML libraries already installed. No more `pip install` errors or version conflicts across Mac, Windows, and Linux.
 
 1. Download: [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
 2. Install and launch Docker Desktop
@@ -74,15 +75,15 @@ docker --version
 ### 4. Pull the ML Week 1 Image
 
 ```bash
-docker pull ghcr.io/lbu-courses/ml-course:week1
+docker pull ghcr.io/sudan23/ml:week1
 ```
 
-> ⏳ ~1.2GB — pull on a good connection before class.
+> ⏳ ~1.2GB — pull on a stable connection before class.
 
 **Run it — this opens JupyterLab in your browser:**
 ```bash
 docker run -p 8888:8888 -v $(pwd):/home/student/notebooks/mywork \
-  ghcr.io/lbu-courses/ml-course:week1
+  ghcr.io/sudan23/ml:week1
 ```
 
 Then open: **[http://localhost:8888](http://localhost:8888)**
@@ -127,17 +128,17 @@ opencode --version             # verify
 
 ## 📬 Week 0 Submission
 
-In your GitHub Classroom repo, create `SETUP.md`:
+In your repository under the course GitHub Organization, create `SETUP.md`:
 
 ```markdown
 # ML Week 0 — Setup Verification
 
 **Name:** [Your full name]
 **GitHub:** [Your GitHub username]
-**Student Number:** [Your UWE student number]
+**Student Number:** [Your UWE / TBC student number]
 
 ## Docker Verification
-(Paste the output when you run: `docker run ghcr.io/lbu-courses/ml-course:week1 python3 --version`)
+(Paste the output when you run: `docker run ghcr.io/sudan23/ml:week1 python3 --version`)
 
 ## Quick Python Check
 Run this inside the container and paste the output:
@@ -186,13 +187,13 @@ This module actively teaches you to use AI tools — **but also to be critical o
 
 ---
 
-## 📋 Your Assessment Reminders
+## 📋 Assessment Reminders
 
-| Component | Weight | Deadline |
-|-----------|--------|----------|
-| Group Project Proposal | **10%** | Week 7 (in lab) |
-| Individual Assignment | **TBC** | Week 9 |
-| Group Project | **TBC** | Week 12 hand-in |
+| Component | Weight | Deadline | Platform |
+|-----------|--------|----------|----------|
+| Group Project Proposal | **10%** | Week 7 (in lab) | In-class + GitHub Org |
+| Individual Assignment | **30%** | Week 9 | Orbund + GitHub Org |
+| Group Project & Defense | **60%** | Week 12 hand-in | Orbund + GitHub Org |
 
 Your GitHub repo commit history is evidence of your individual contribution to the group project. **If you don't commit, you don't get credit.**
 
@@ -203,8 +204,8 @@ Your GitHub repo commit history is evidence of your individual contribution to t
 From Week 8 (ANNs and CNNs), pull the **deep learning image** instead:
 
 ```bash
-docker pull ghcr.io/lbu-courses/ml-course:week8-dl
-docker run -p 8888:8888 ghcr.io/lbu-courses/ml-course:week8-dl
+docker pull ghcr.io/sudan23/ml:week8-dl
+docker run -p 8888:8888 ghcr.io/sudan23/ml:week8-dl
 ```
 
 This adds TensorFlow and Keras to the environment.  
@@ -216,11 +217,11 @@ Google Colab is available as an alternative if you need GPU access.
 
 | Channel | Use For |
 |---------|---------|
-| **GitHub Discussions** in your course org | Technical Python/Docker questions |
+| **GitHub Discussions** in our course org | Technical Python/Docker questions |
 | **Email Sudan Pudasaini** | Include your GitHub username + student number |
-| **UWE Blackboard** | Official module announcements and assessment submissions |
+| **Orbund (TBC Portal)** | Official module announcements, attendance, and assessment submissions |
 | **Class sessions at TBC** | Best for hands-on debugging — bring your laptop |
 
 ---
 
-*See you October 5! Let's build something that actually learns. 🧠*
+*See you in class! Let's build something that actually learns. 🧠*

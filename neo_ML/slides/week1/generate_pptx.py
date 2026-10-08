@@ -219,7 +219,7 @@ def create_class1_deck():
                  "Building from scratch in NumPy first.",
                  "Fitting production Scikit-Learn models.",
                  "Executing Jupyter notebooks in Docker.",
-                 "GitHub Classroom push & validation."
+                 "GitHub Org push & Orbund submission."
              ],
              "Session 3")
 
@@ -385,14 +385,14 @@ def create_class1_deck():
              ],
              "Environment")
     add_card(s10, Inches(4.85), Inches(2.0), Inches(3.6), Inches(4.8),
-             "GitHub Classroom",
+             "GitHub Org & Orbund",
              [
-                 "Personal repo for every student.",
+                 "Personal repo in course GitHub Organization.",
                  "Automated CI/CD runner tests every push.",
-                 "Checks code execution & cell outputs.",
-                 "Commit log is your portfolio."
+                 "Official assignments & grading on Orbund.",
+                 "Commit log is your authentic portfolio."
              ],
-             "CI / CD")
+             "Platforms")
     add_card(s10, Inches(8.9), Inches(2.0), Inches(3.6), Inches(4.8),
              "Modern IDE & Notebooks",
              [
@@ -458,12 +458,12 @@ def create_class1_deck():
     add_bg(s13)
     add_header(s13, "Your Action Checklist Before Class 2")
     add_card(s13, Inches(0.8), Inches(2.0), Inches(3.6), Inches(4.8),
-             "1. GitHub Account",
+             "1. GitHub Org & Orbund",
              [
-                 "Join GitHub Classroom via invite link.",
+                 "Join Course GitHub Org via invite link.",
+                 "Verify your Orbund course registration.",
                  "Apply for GitHub Student Developer Pack.",
-                 "Activate free GitHub Copilot.",
-                 "Link your student email address."
+                 "Activate free GitHub Copilot."
              ],
              "Action 1")
     add_card(s13, Inches(4.85), Inches(2.0), Inches(3.6), Inches(4.8),
@@ -472,7 +472,7 @@ def create_class1_deck():
                  "Install Docker Desktop on your machine.",
                  "Verify via: docker --version",
                  "Pull Week 1 image:",
-                 "docker pull ghcr.io/lbu-courses/ml-course:week1",
+                 "docker pull ghcr.io/sudan23/ml:week1",
                  "Test opening http://localhost:8888."
              ],
              "Action 2")
@@ -504,7 +504,7 @@ def create_class1_deck():
              "Open Floor: Questions & Discussion",
              [
                  "Questions on syllabus, deadlines, or credit breakdown?",
-                 "Questions on Docker or GitHub Classroom workflow?",
+                 "Questions on Docker, GitHub Org, or Orbund?",
                  "Questions on assessment criteria or group allocations?",
                  "Lecturer: Sudan Pudasaini",
                  "Let's build systems that actually learn! 🚀"

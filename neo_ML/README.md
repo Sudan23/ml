@@ -39,6 +39,9 @@ neo_ML/
 |---|---|
 | Student onboarding | [onboarding/onboarding.md](onboarding/onboarding.md) |
 | Delivery plan | [delivery-plan/ML-delivery-plan.md](delivery-plan/ML-delivery-plan.md) |
+| Class 1 Slides (Marp) | [slides/week1/slides.md](slides/week1/slides.md) |
+| Class 1 Slides (HTML) | [slides/week1/slides.html](slides/week1/slides.html) |
+| Class 1 Slides (PPTX) | [slides/week1/Week_1_Class_1_Course_Introduction_and_Overview.pptx](slides/week1/Week_1_Class_1_Course_Introduction_and_Overview.pptx) |
 | Docker base image | [docker/Dockerfile](docker/Dockerfile) |
 | GitHub Actions checker | [github-actions/notebook-checker.yml](github-actions/notebook-checker.yml) |
 
@@ -48,10 +51,10 @@ neo_ML/
 
 ```bash
 # Pull weekly image (Python + Jupyter + ML libraries)
-docker pull ghcr.io/lbu-courses/ml-course:week<N>
+docker pull ghcr.io/sudan23/ml:week<N>
 
 # Run with mounted workspace
-docker run -it -p 8888:8888 -v $(pwd):/workspace ghcr.io/lbu-courses/ml-course:week<N>
+docker run -it -p 8888:8888 -v $(pwd):/workspace ghcr.io/sudan23/ml:week<N>
 
 # Open in browser: http://localhost:8888
 ```
