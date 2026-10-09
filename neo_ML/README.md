@@ -51,10 +51,10 @@ neo_ML/
 
 ```bash
 # Pull weekly image (Python + Jupyter + ML libraries)
-docker pull ghcr.io/sudan23/ml:week<N>
+docker pull alkimi/ml:week<N>
 
 # Run with mounted workspace
-docker run -it -p 8888:8888 -v $(pwd):/workspace ghcr.io/sudan23/ml:week<N>
+docker run -it -p 8888:8888 -v $(pwd):/workspace alkimi/ml:week<N>
 
 # Open in browser: http://localhost:8888
 ```

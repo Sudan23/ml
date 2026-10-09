@@ -73,7 +73,7 @@ docker --version
 ### 4. Pull the ML Week 1 Image
 
 ```bash
-docker pull ghcr.io/sudan23/ml:week1
+docker pull alkimi/ml:week1
 ```
 
 > ⏳ ~1.2GB — pull on a stable connection before class.
@@ -81,7 +81,7 @@ docker pull ghcr.io/sudan23/ml:week1
 **Run it — this opens JupyterLab in your browser:**
 ```bash
 docker run -p 8888:8888 -v $(pwd):/home/student/notebooks/mywork \
-  ghcr.io/sudan23/ml:week1
+  alkimi/ml:week1
 ```
 
 Then open: **[http://localhost:8888](http://localhost:8888)**
@@ -136,7 +136,7 @@ In your repository under the course GitHub Organization, create `SETUP.md`:
 **Student Number:** [Your UWE / TBC student number]
 
 ## Docker Verification
-(Paste the output when you run: `docker run ghcr.io/sudan23/ml:week1 python3 --version`)
+(Paste the output when you run: `docker run alkimi/ml:week1 python3 --version`)
 
 ## Quick Python Check
 Run this inside the container and paste the output:
@@ -203,8 +203,8 @@ This module uses a **100% Individual Project** summative assessment model:
 From Week 8 (ANNs and CNNs), pull the **deep learning image** instead:
 
 ```bash
-docker pull ghcr.io/sudan23/ml:week8-dl
-docker run -p 8888:8888 ghcr.io/sudan23/ml:week8-dl
+docker pull alkimi/ml:week8-dl
+docker run -p 8888:8888 alkimi/ml:week8-dl
 ```
 
 This adds TensorFlow and Keras to the environment.  

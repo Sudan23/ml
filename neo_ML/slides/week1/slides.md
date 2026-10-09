@@ -218,8 +218,8 @@ To ensure a smooth, industry-aligned experience, we've layered `neo_ML` on top:
 * 🐳 **Dockerized Labs (No Environment Collisions):**
   Pre-built container with Python 3.12, JupyterLab 4, Scikit-Learn, Pandas, NumPy, and Seaborn.
   ```bash
-  docker pull ghcr.io/sudan23/ml:week1
-  docker run -it -p 8888:8888 -v $(pwd):/workspace ghcr.io/sudan23/ml:week1
+  docker pull alkimi/ml:week1
+  docker run -it -p 8888:8888 -v $(pwd):/workspace alkimi/ml:week1
   ```
 * 🐙 **GitHub Organization & Orbund:**
   Code lives in student repositories under the **course GitHub Organization** with CI/CD checks; official grading and assessment submissions are managed through **Orbund**.
@@ -264,7 +264,7 @@ Complete these **before our next session**:
 2. [ ] **Apply for GitHub Student Developer Pack:** Get free GitHub Copilot access ([education.github.com/pack](https://education.github.com/pack)).
 3. [ ] **Install Docker Desktop:** Verify by running `docker --version`.
 4. [ ] **Pull the Week 1 Image:**  
-   `docker pull ghcr.io/sudan23/ml:week1`
+   `docker pull alkimi/ml:week1`
 5. [ ] **Read the Onboarding Guide:**  
    Check [`neo_ML/onboarding/onboarding.md`](file:///Users/sudan/Teaching/Current/ML/neo_ML/onboarding/onboarding.md) in the course repository.
 

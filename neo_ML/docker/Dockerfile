@@ -50,6 +50,6 @@ RUN mkdir -p /home/student/.jupyter && \
 
 EXPOSE 8888
 
-# Students run: docker run -p 8888:8888 -v $(pwd):/home/student/notebooks/mywork ghcr.io/sudan23/ml:week1
+# Students run: docker run -p 8888:8888 -v $(pwd):/home/student/notebooks/mywork alkimi/ml:week1
 # Then open: http://localhost:8888
 CMD ["jupyter", "lab", "--notebook-dir=/home/student/notebooks"]

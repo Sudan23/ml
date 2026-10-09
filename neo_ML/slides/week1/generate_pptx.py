@@ -473,7 +473,7 @@ def create_class1_deck():
                  "Install Docker Desktop on your machine.",
                  "Verify via: docker --version",
                  "Pull Week 1 image:",
-                 "docker pull ghcr.io/sudan23/ml:week1",
+                 "docker pull alkimi/ml:week1",
                  "Test opening http://localhost:8888."
              ],
              "Action 2")
