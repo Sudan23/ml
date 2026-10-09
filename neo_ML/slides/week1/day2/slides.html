@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 1 · Day 2: Hands-On Containerized ML | UFCFAS-15-2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0e17;
+      --card-bg: rgba(16, 24, 40, 0.85);
+      --card-border: rgba(56, 189, 248, 0.2);
+      --accent-blue: #38bdf8;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-purple: #a855f7;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --code-bg: #030712;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Presentation Header */
+    header {
+      height: 52px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(10, 14, 23, 0.9);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .badge-module {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .nav-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: var(--accent-blue);
+      color: white;
+    }
+
+    /* Main Slides Container */
+    #slide-viewport {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 48px;
+    }
+
+    .slide {
+      position: absolute;
+      width: min(1200px, 92vw);
+      height: min(680px, 84vh);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 44px 56px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(16px);
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Slide Titles */
+    .slide-header {
+      margin-bottom: 24px;
+    }
+    .slide-category {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-cyan);
+      margin-bottom: 6px;
+    }
+    .slide-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+    .slide-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* Grids & Cards */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+
+    .card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-body {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .card-body ul {
+      margin-left: 18px;
+      margin-top: 6px;
+    }
+    .card-body li {
+      margin-bottom: 5px;
+    }
+
+    /* Code Blocks */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      color: #7ee787;
+      overflow-x: auto;
+      margin-top: 10px;
+      position: relative;
+    }
+    code {
+      font-family: 'Fira Code', monospace;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    /* Comparison Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-blue);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: #e2e8f0;
+    }
+
+    /* Highlights & Tags */
+    .pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .pill-blue {
+      background: rgba(56, 189, 248, 0.2);
+      color: var(--accent-blue);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    /* Progress Footer */
+    footer {
+      height: 38px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10, 14, 23, 0.95);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .progress-bar-container {
+      width: 240px;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+      width: 8.33%;
+      transition: width 0.3s;
+    }
+
+    /* Speaker Notes Toggle */
+    #notes-panel {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(800px, 90vw);
+      background: rgba(2, 6, 23, 0.95);
+      border: 1px solid var(--accent-amber);
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 13px;
+      color: #fef3c7;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      display: none;
+      z-index: 200;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="badge-module">UFCFAS-15-2 · LEVEL 5</span>
+      <span style="font-size: 13px; font-weight: 600; color: #cbd5e1;">Week 1 · Day 2: Hands-On Containerized ML</span>
+    </div>
+    <div class="nav-controls">
+      <span>Slide <b id="slide-num" style="color: white;">1</b> / 12</span>
+      <button class="nav-btn" onclick="prevSlide()">◀ Prev (←)</button>
+      <button class="nav-btn" onclick="nextSlide()">Next (→) ▶</button>
+      <button class="nav-btn" onclick="toggleNotes()">Notes (S)</button>
+      <button class="nav-btn" onclick="toggleFullscreen()">Full (F)</button>
+    </div>
+  </header>
+
+  <!-- Viewport -->
+  <main id="slide-viewport">
+
+    <!-- Slide 1: Title -->
+    <div class="slide active">
+      <div class="slide-header" style="margin-top: 40px; text-align: center;">
+        <span class="slide-category">The British College Nepal · UWE Bristol</span>
+        <h1 class="slide-title" style="font-size: 44px; margin: 16px 0;">🐳 Hands-On Containerized ML</h1>
+        <p class="slide-subtitle" style="font-size: 20px; color: var(--accent-blue);">Build, Train, Push & Pull with Docker</p>
+      </div>
+
+      <div class="grid-3" style="margin-top: 50px;">
+        <div class="card" style="text-align: center;">
+          <div style="font-size: 28px; margin-bottom: 8px;">⏱️</div>
+          <div class="card-title" style="justify-content: center;">Class 2 of 3</div>
+          <div class="card-body">1.5 Hours (90 Minutes)<br>Light, hands-on, high-impact.</div>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div style="font-size: 28px; margin-bottom: 8px;">🧠</div>
+          <div class="card-title" style="justify-content: center;">Simple ML Core</div>
+          <div class="card-body">Linear Regression on study data.<br>Train, predict, and export.</div>
+        </div>
+        <div class="card" style="text-align: center;">
+          <div style="font-size: 28px; margin-bottom: 8px;">☁️</div>
+          <div class="card-title" style="justify-content: center;">Cloud Registry</div>
+          <div class="card-body">Push your custom image.<br>Pull official course toolkit.</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 50px; font-size: 13px; color: var(--text-muted);">
+        Lecturer: <b>Sudan Pudasaini</b> · Department of Computing · TBC Nepal
+      </div>
+    </div>
+
+    <!-- Slide 2: 90-Min Flight Plan -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-category">Session Roadmap</span>
+        <h2 class="slide-title">🎯 Today's 90-Minute Flight Plan</h2>
+        <p class="slide-subtitle">A step-by-step path to containerizing your first Machine Learning workflow</p>
+      </div>
+      <div class="grid-5" style="margin-top: 20px;">
+        <div class="card">
+          <span class="pill">00–15m</span>
+          <div class="card-title" style="margin-top: 10px;">Part 1: Why Docker?</div>
+          <div class="card-body">ML reproducibility crisis & terminal smoke test.</div>
+        </div>
+        <div class="card">
+          <span class="pill">15–35m</span>
+          <div class="card-title" style="margin-top: 10px;">Part 2: ML Code</div>
+          <div class="card-body">Write <code>data.csv</code>, Python ML script, and Dockerfile.</div>
+        </div>
+        <div class="card">
+          <span class="pill">35–50m</span>
+          <div class="card-title" style="margin-top: 10px;">Part 3: Run & Persist</div>
+          <div class="card-body">Execute training & mount volume for <code>model.joblib</code>.</div>
+        </div>
+        <div class="card">
+          <span class="pill">50–70m</span>
+          <div class="card-title" style="margin-top: 10px;">Part 4: Docker Hub</div>
+          <div class="card-body">Tag and push your image to your public cloud registry.</div>
+        </div>
+        <div class="card">
+          <span class="pill">70–90m</span>
+          <div class="card-title" style="margin-top: 10px;">Part 5: Course Image</div>
+          <div class="card-body">Pull <code>alkimi/ml:week1</code> and launch JupyterLab.</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top: 24px; border-left: 4px solid var(--accent-emerald);">
+        <div class="card-body" style="font-size: 14px; color: #e2e8f0;">
+          💡 <b>Key Takeaway:</b> By the end of class, every student will have a live public container on Docker Hub and a verified local JupyterLab environment ready for Class 3!
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: The Crisis -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-category">Motivation</span>
+        <h2 class="slide-title">💥 The "Works on My Machine" Crisis in ML</h2>
+        <p class="slide-subtitle">Why production ML engineers never run models on bare operating systems</p>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Traditional Bare Machine Setup</th>
+            <th>Containerized Environment (Docker)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>⚠️ <b>Python Version Drift:</b> Student A has 3.10, Student B has 3.12, leading to syntax and library breakages.</td>
+            <td>✅ <b>Fixed Python Runtime:</b> Base image locks the exact interpreter (Python 3.11 / 3.12) universally.</td>
+          </tr>
+          <tr>
+            <td>⚠️ <b>Dependency Hell:</b> NumPy 2.0 release breaking existing Pandas / Scikit-Learn installations.</td>
+            <td>✅ <b>Frozen Requirements:</b> Dependencies installed once inside immutable image layers.</td>
+          </tr>
+          <tr>
+            <td>⚠️ <b>C-Extension Compilations:</b> Missing Xcode tools on Mac or Visual C++ on Windows crashing pip install.</td>
+            <td>✅ <b>Pre-Compiled Wheels:</b> Standard Linux Debian/Ubuntu containers with all binary libraries pre-built.</td>
+          </tr>
+          <tr>
+            <td>⚠️ <b>Cloud Deployment Friction:</b> Code runs on laptop, fails instantly on AWS / Azure Linux servers.</td>
+            <td>✅ <b>Build Once, Run Anywhere:</b> Identical execution from local MacBook to cloud cluster.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Slide 4: Data & Problem -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-category">Our Micro Dataset</span>
+        <h2 class="slide-title">📊 Problem Formulation: Study Hours vs Score</h2>
+        <p class="slide-subtitle">A simple, intuitive regression problem to test our container</p>
+      </div>
+      <div class="grid-2">
+        <div>
+          <div class="card">
+            <div class="card-title">Dataset: <code>data.csv</code></div>
+            <pre>study_hours,exam_score
+1.5,42.0
+2.0,50.0
+2.5,53.5
+3.0,58.0
+3.5,62.0
+4.0,66.5
+4.5,70.0
+5.0,74.5
+5.5,78.0
+6.0,81.5
+7.0,89.0
+8.0,95.0</pre>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="height: 100%;">
+            <div class="card-title">Mathematical Relationship</div>
+            <div class="card-body" style="font-size: 14px;">
+              <p>We want our machine learning model to discover the linear relationship:</p>
+              <div style="font-size: 20px; color: var(--accent-blue); margin: 16px 0; font-family: monospace;">
+                y = w · X + b
+              </div>
+              <ul>
+                <li><b>X (Input):</b> Study Hours</li>
+                <li><b>y (Output):</b> Exam Score (0 to 100)</li>
+                <li><b>w (Weight / Slope):</b> Points gained per hour studied</li>
+                <li><b>b (Bias / Intercept):</b> Base score without studying</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Python ML Script -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-category">Application Logic</span>
+        <h2 class="slide-title">🧠 The ML Pipeline: <code>train_and_predict.py</code></h2>
+        <p class="slide-subtitle">Clean Scikit-Learn code that fits the data, prints metrics, and exports the model</p>
+      </div>
+      <pre>import pandas as pd
+from sklearn.linear_model import LinearRegression
+import joblib
+
+# 1. Load dataset
+df = pd.read_csv("data.csv")
+X = df[["study_hours"]].values
+y = df["exam_score"].values
+
+# 2. Fit Scikit-Learn Linear Regression model
+model = LinearRegression()
+model.fit(X, y)
+
+# 3. Print learned parameters & test prediction
+print(f"Learned: Score = ({model.coef_[0]:.2f} × Hours) + {model.intercept_:.2f}")
+print(f"Predicted for 6 hours: {model.predict([[6.0]])[0]:.1f}")
+
+# 4. Save trained artifact to output directory
+joblib.dump(model, "output/model.joblib")</pre>
+    </div>
+
+    <!-- Slide 6: Dockerfile Anatomy -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-category">Container Specification</span>
+        <h2 class="slide-title">🐳 Authoring the <code>Dockerfile</code></h2>
+        <p class="slide-subtitle">Translating code, data, and environment into container layers</p>
+      </div>
+      <div class="grid-2">
+        <pre># 1. Lightweight base image
+FROM python:3.11-slim
+
+# 2. Working directory
+WORKDIR /app
+
+# 3. Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 4. Copy training data & script
+COPY data.csv .
+COPY train_and_predict.py .
+
+# 5. Output directory & execution
+RUN mkdir -p /app/output
+CMD ["python", "train_and_predict.py"]</pre>
+
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-around;">
+          <div>
+            <div class="card-title"><span class="pill-blue">FROM</span> Base Layer</div>
+            <div class="card-body">Pulls minimal official Debian Linux with Python 3.11 pre-installed (~50MB).</div>
+          </div>
+          <div>
+            <div class="card-title"><span class="pill-blue">COPY & RUN</span> Layer Caching</div>
+            <div class="card-body">Copies requirements first so Docker caches installed packages unless requirements change.</div>
+          </div>
+          <div>
+            <div class="card-title"><span class="pill-blue">CMD</span> Entrypoint</div>
+            <div class="card-body">Specifies the default command executed when the container spins up.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Task 1 & 2 Build & Run -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-category">Hands-On Practice</span>
+        <h2 class="slide-title">🔨 Task 1 & 2: Build & Run Locally</h2>
+        <p class="slide-subtitle">Executing training inside your isolated container</p>
+      </div>
+
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="card-title">1. Build the Docker Image</div>
+        <pre>docker build -t my-first-ml:v1 .</pre>
+        <div class="card-body" style="margin-top: 6px;">
+          ⚠️ <b>Crucial:</b> Do not omit the trailing dot <code>.</code>! It tells Docker the build context is the current folder.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">2. Run the Container</div>
+        <pre>docker run --rm my-first-ml:v1</pre>
+        <div class="card-body" style="margin-top: 6px;">
+          The <code>--rm</code> flag automatically removes the stopped container process, keeping your system clean.
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Task 3 Volume Mounting -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-category">Persistence</span>
+        <h2 class="slide-title">💾 Task 3: Persist Model via Volume Mount</h2>
+        <p class="slide-subtitle">Extracting the trained <code>model.joblib</code> artifact onto your host laptop</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">The Stateless Container Problem</div>
+          <div class="card-body">
+            <p>Containers are ephemeral. Any file saved inside <code>/app/output</code> disappears when the container terminates.</p>
+            <p style="margin-top: 10px;">To retain model artifacts, we <b>mount</b> a local laptop directory into the container:</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Volume Command</div>
+          <pre>mkdir -p output
+
+docker run --rm \
+  -v $(pwd)/output:/app/output \
+  my-first-ml:v1</pre>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 20px; border-left: 4px solid var(--accent-emerald);">
+        <div class="card-title">Verify Local File Creation:</div>
+        <pre>ls -la output/
+# Look for model.joblib directly on your laptop!</pre>
+      </div>
+    </div>
+
+    <!-- Slide 9: Task 4 Docker Hub Push -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-category">Cloud Registry</span>
+        <h2 class="slide-title">☁️ Task 4: Push to Your Docker Hub</h2>
+        <p class="slide-subtitle">Publishing your ML container so anyone or any cloud server can pull it</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">Step 1: Authenticate</div>
+          <div class="card-body">Login to Docker Hub:</div>
+          <pre>docker login</pre>
+        </div>
+        <div class="card">
+          <div class="card-title">Step 2: Tag</div>
+          <div class="card-body">Format: <code>&lt;user&gt;/&lt;repo&gt;:&lt;tag&gt;</code></div>
+          <pre>docker tag my-first-ml:v1 \
+  &lt;YOUR_USER&gt;/my-first-ml:v1</pre>
+        </div>
+        <div class="card">
+          <div class="card-title">Step 3: Push</div>
+          <div class="card-body">Upload image layers:</div>
+          <pre>docker push \
+  &lt;YOUR_USER&gt;/my-first-ml:v1</pre>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 24px;">
+        <div class="card-title">Check your public repository live in browser:</div>
+        <div class="card-body" style="font-size: 15px;">
+          👉 <code>https://hub.docker.com/r/&lt;YOUR_DOCKERHUB_USERNAME&gt;/my-first-ml</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Task 5 Course Toolkit -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-category">Course Environment</span>
+        <h2 class="slide-title">🎓 Task 5: Pull Lecturer's Image (<code>alkimi/ml:week1</code>)</h2>
+        <p class="slide-subtitle">Downloading the official coursework container for UFCFAS-15-2</p>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-title">1. Pull the Official Image</div>
+        <pre>docker pull alkimi/ml:week1</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">2. Launch JupyterLab with Port Forwarding</div>
+        <pre>docker run -p 8888:8888 -v $(pwd):/home/student/notebooks/mywork alkimi/ml:week1</pre>
+        <div class="card-body" style="margin-top: 10px;">
+          Open your browser to: <b><a href="http://localhost:8888" target="_blank" style="color: var(--accent-blue);">http://localhost:8888</a></b><br>
+          Pre-installed: <b>Python 3.12 · JupyterLab 4 · Scikit-Learn · Pandas · NumPy · Seaborn</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 11: Verification Checklist -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-category">Accountability</span>
+        <h2 class="slide-title">✅ Task 6: Action Checklist & Submission</h2>
+        <p class="slide-subtitle">Verify your deliverables before leaving today's workshop</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Workshop Checklist</div>
+          <div class="card-body">
+            <ul>
+              <li>[ ] Docker Desktop smoke test passed (<code>hello-world</code>).</li>
+              <li>[ ] Built custom ML container (<code>my-first-ml:v1</code>).</li>
+              <li>[ ] Trained linear regression and evaluated $R^2$ score.</li>
+              <li>[ ] Extracted <code>model.joblib</code> via host volume mount.</li>
+              <li>[ ] Pushed image to your public Docker Hub account.</li>
+              <li>[ ] Pulled lecturer's image: <code>alkimi/ml:week1</code>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Commit to GitHub Repo: <code>WEEK1_DAY2_VERIFICATION.md</code></div>
+          <pre style="font-size: 11px;"># Day 2 Lab Verification
+Name: [Your Full Name]
+Student ID: [Your TBC ID]
+Docker Hub: https://hub.docker.com/r/&lt;user&gt;/my-first-ml
+
+Trained Equation: Score = 7.50 × Hours + 35.00
+Pulled alkimi/ml:week1 and JupyterLab running!</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 12: Looking Forward -->
+    <div class="slide">
+      <div class="slide-header" style="text-align: center; margin-top: 30px;">
+        <span class="slide-category">Tomorrow's Class</span>
+        <h2 class="slide-title" style="font-size: 40px; margin: 16px 0;">🔮 Looking Forward to Class 3</h2>
+        <p class="slide-subtitle" style="font-size: 18px; color: var(--accent-cyan);">Machine Learning Fundamentals: Linear Regression from Scratch</p>
+      </div>
+
+      <div class="grid-3" style="margin-top: 40px;">
+        <div class="card">
+          <div class="card-title">1. The Engine</div>
+          <div class="card-body">What did <code>model.fit()</code> actually do behind the scenes? How does it choose slope and intercept?</div>
+        </div>
+        <div class="card">
+          <div class="card-title">2. Loss & Cost</div>
+          <div class="card-body">Mean Squared Error (MSE) — measuring how wrong our predictions are mathematically.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">3. Gradient Descent</div>
+          <div class="card-body">Taking derivative steps down the error bowl to find optimal weights.</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 50px;">
+        <span class="pill" style="font-size: 14px; padding: 8px 18px;">Class 3 is 1 Hour · Bring your laptops ready with alkimi/ml:week1! 🚀</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Speaker Notes Panel -->
+  <div id="notes-panel">
+    <b>🗣️ Speaker Notes:</b> <span id="notes-content">Welcome class! Keep today light and hands-on.</span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>UFCFAS-15-2 · Machine Learning · Class 2 (1.5 Hours)</div>
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+    <div>The British College Nepal · Sudan Pudasaini</div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+
+    const notes = [
+      "Welcome class! Today is Day 2. We are keeping it light, practical, and highly engaging. Today everyone will build, train, push and pull a real ML container.",
+      "Explain the 90-minute structure. 5 clear tasks. Nobody leaves without having their own container live on Docker Hub.",
+      "Pedagogical Hook: Ask who has lost hours to Python dependency errors. Explain why ML engineers use Docker.",
+      "Walk through the study hours dataset. Highlight features X vs target y. Keep math intuitive: y = mx + c.",
+      "Live code walkthrough of train_and_predict.py. Point out how simple Scikit-Learn makes fitting and predicting.",
+      "Explain Dockerfile line-by-line. Why we copy requirements.txt first (layer caching).",
+      "Task 1 & 2 action: Have every student run docker build and docker run. Walk the room to help with WSL/Docker Desktop.",
+      "Explain volume mounting. Why files disappear from containers and how -v $(pwd)/output:/app/output saves model.joblib.",
+      "Celebrate Docker Hub pushes! Have students share their Docker Hub links. Point out this is real cloud portfolio work.",
+      "Have every student pull alkimi/ml:week1 and launch JupyterLab. Verify localhost:8888 is working for everyone.",
+      "Wrap-up checklist: ensure verification file is noted in their personal repo.",
+      "Tease Class 3 (1 hour session): Tomorrow we explore the mathematics of what we ran today (Gradient Descent and Cost Functions)."
+    ];
+
+    function showSlide(index) {
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === index);
+      });
+      document.getElementById('slide-num').innerText = index + 1;
+      document.getElementById('progress-fill').style.width = ((index + 1) / totalSlides * 100) + '%';
+      document.getElementById('notes-content').innerText = notes[index] || "";
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        showSlide(currentSlide);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        showSlide(currentSlide);
+      }
+    }
+
+    function toggleNotes() {
+      const p = document.getElementById('notes-panel');
+      p.style.display = p.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 's' || e.key === 'S') {
+        toggleNotes();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullscreen();
+      }
+    });
+
+    showSlide(0);
+  </script>
+</body>
+</html>
