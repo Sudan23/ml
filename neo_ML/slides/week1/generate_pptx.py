@@ -133,7 +133,7 @@ def create_class1_deck():
     p2.space_after = Pt(24)
 
     p3 = tf1.add_paragraph()
-    p3.text = "Lecturer: Sudan Pudasaini · Module Leader (UWE): Prof. Jun Hong\nWelcome, Expectations, Roadmap & Modern Delivery Architecture"
+    p3.text = "Module: UFCFAS-15-2 · Level 5 (15 UK Credits / 7.5 ECTS)\nLecturer: Sudan Pudasaini · Module Leader (UWE): Prof. Jun Hong"
     p3.font.name = 'Helvetica'
     p3.font.size = Pt(14)
     p3.font.color.rgb = COLOR_MUTED
@@ -153,7 +153,7 @@ def create_class1_deck():
              ],
              "Icebreaker")
     add_card(s2, Inches(6.9), Inches(2.0), Inches(5.6), Inches(4.8),
-             "The Level 6 Mindset",
+             "The Level 5 Mindset",
              [
                  "Machine Learning is NOT black-box memorization.",
                  "It is NOT just dry mathematical proofs either.",
@@ -172,8 +172,8 @@ def create_class1_deck():
              [
                  "Awarding University: UWE Bristol (UK).",
                  "Delivered at: The British College (TBC), Kathmandu, Nepal.",
-                 "Module Code: UFCFAS-15-2 (15 UK Credits).",
-                 "Level: Level 6 (Final Year Computing).",
+                 "Module Code: UFCFAS-15-2 (15 UK Credits / 7.5 ECTS).",
+                 "Level: Level 5 (Year 2 Computing).",
                  "All assessments and moderation adhere to UWE Bristol standards."
              ],
              "Partnership")
@@ -258,11 +258,11 @@ def create_class1_deck():
     # ------------------ SLIDE 6: UNIVERSITY EXPECTATIONS ------------------
     s6 = prs.slides.add_slide(blank_layout)
     add_bg(s6)
-    add_header(s6, "University Expectations (Level 6 Academic Rigor)")
+    add_header(s6, "University Expectations (Level 5 Academic Rigor)")
     add_card(s6, Inches(0.8), Inches(2.0), Inches(5.6), Inches(4.8),
              "Intellectual Ownership & Independence",
              [
-                 "You are the architect of your models and experiments.",
+                 "You are the author and architect of your models and experiments.",
                  "Passive attendance will not yield working systems.",
                  "Take initiative in testing hyperparameters and datasets.",
                  "Engage actively in question-and-answer discussions.",
@@ -274,7 +274,7 @@ def create_class1_deck():
              [
                  "Never say 'my model works' without empirical justification.",
                  "Report metrics: Loss curves, Confusion Matrices, F1, MSE.",
-                 "Compare performance against a trivial baseline model.",
+                 "Compare performance against a baseline model.",
                  "Code must be fully reproducible end-to-end.",
                  "Cite academic sources and methodology clearly."
              ],
@@ -296,14 +296,14 @@ def create_class1_deck():
              ],
              "Environment & Code")
     add_card(s7, Inches(6.9), Inches(2.0), Inches(5.6), Inches(4.8),
-             "Commit Cadence & Team Ethics",
+             "Commit Cadence & Individual Work",
              [
                  "3. Consistent Git Commit History:",
                  "Commit incrementally as you build. No mass uploads 5 min before deadline.",
-                 "4. Zero Team Ghosting:",
-                 "Group project scores are weighted by individual Git commit blame.",
-                 "No commits = No individual contribution mark.",
-                 "Respect your peers and communicate early."
+                 "4. Individual Authorship (No Free-Riders):",
+                 "This is a 100% individual module (Group Work: No).",
+                 "Code authorship is tracked via Git commit history.",
+                 "All software and written analysis must be your own."
              ],
              "Accountability")
 
@@ -326,7 +326,7 @@ def create_class1_deck():
                  "W4–5: Support Vector Machines (SVM) & Kernels.",
                  "W6: Decision Trees & Random Forests (Bagging).",
                  "W7: Boosting & AdaBoost.",
-                 "Milestone: Group Project Proposal Due (10%)."
+                 "Focus: Realities of handling data & imbalanced sets."
              ],
              "Phase 2")
     add_card(s8, Inches(8.9), Inches(2.0), Inches(3.6), Inches(4.8),
@@ -334,42 +334,43 @@ def create_class1_deck():
              [
                  "W8: Artificial Neural Networks (ANN).",
                  "W9: Convolutional Neural Networks (CNN).",
-                 "Milestone: Individual Assignment Due (30%).",
-                 "W10–12: Deep Learning Group Project (60%)."
+                 "W10–12: Deep Learning Implementation & Tuning.",
+                 "Final Summative Submission: 100% Individual Project."
              ],
              "Phase 3")
 
     # ------------------ SLIDE 9: ASSESSMENTS ------------------
     s9 = prs.slides.add_slide(blank_layout)
     add_bg(s9)
-    add_header(s9, "Assessment Structure & Grade Breakdown")
+    add_header(s9, "Assessment Structure (UWE Approved Specification)")
     add_card(s9, Inches(0.8), Inches(2.0), Inches(3.6), Inches(4.8),
-             "Group Proposal (10%)",
+             "Formative Labs (0%)",
              [
-                 "Due: Week 7 in lab.",
-                 "Form teams of 3–4 members.",
-                 "Define problem statement and real dataset.",
-                 "Propose baseline model & deep learning approach."
+                 "Weekly in-lab practical exercises.",
+                 "One-to-one demonstrations to tutors.",
+                 "Provides continuous formative feedback.",
+                 "Immediate code review & debugging support."
              ],
-             "Assessment 1")
+             "Formative")
     add_card(s9, Inches(4.85), Inches(2.0), Inches(3.6), Inches(4.8),
-             "Individual Assignment (30%)",
+             "Software Artifact (Part of 100%)",
              [
-                 "Due: Week 9.",
-                 "Select 1 dataset, implement 2 distinct ML algorithms.",
-                 "Perform data cleaning, validation, tuning.",
-                 "Compare performance metrics in a written report."
+                 "Individual ML software production.",
+                 "End-to-end real-world problem solution.",
+                 "Data preprocessing, training, testing.",
+                 "Tests Learning Outcomes: MO1, MO2, MO3."
              ],
-             "Assessment 2")
+             "Summative A")
     add_card(s9, Inches(8.9), Inches(2.0), Inches(3.6), Inches(4.8),
-             "Group Project (60%)",
+             "6-Page Report (Part of 100%)",
              [
-                 "Due: Week 12 Final Hand-in.",
-                 "End-to-end Deep Learning system (CNN / DNN).",
-                 "Live team presentation & code defense.",
-                 "Git commit history verifies individual effort!"
+                 "Online submission via Orbund.",
+                 "Follows official UWE formatting guidelines.",
+                 "Problem formulation & algorithm choice.",
+                 "Empirical testing, evaluation & ethics.",
+                 "Group Work: NO (100% Individual Project)."
              ],
-             "Assessment 3")
+             "Summative B")
 
     # ------------------ SLIDE 10: MODERN DELIVERY STACK ------------------
     s10 = prs.slides.add_slide(blank_layout)
@@ -421,8 +422,8 @@ def create_class1_deck():
              "Strictly Prohibited",
              [
                  "Copying blocks of code you cannot explain line-by-line.",
-                 "Having AI write your individual assignment report.",
-                 "Generating group project proposals via generative AI.",
+                 "Having AI write your 6-page project report.",
+                 "Generating project analysis via generative AI.",
                  "Submitting unverified, unexecuted AI hallucinated code.",
                  "Rule: Weekly REFLECTION.md log required with every push!"
              ],
@@ -481,7 +482,7 @@ def create_class1_deck():
              [
                  "Read neo_ML/onboarding/onboarding.md.",
                  "Review the course syllabus and schedule.",
-                 "Form initial connections with prospective group peers.",
+                 "Start brainstorming potential project domains.",
                  "Come ready to dive into ML theory tomorrow!"
              ],
              "Action 3")
@@ -505,7 +506,7 @@ def create_class1_deck():
              [
                  "Questions on syllabus, deadlines, or credit breakdown?",
                  "Questions on Docker, GitHub Org, or Orbund?",
-                 "Questions on assessment criteria or group allocations?",
+                 "Questions on assessment criteria or the 6-page report?",
                  "Lecturer: Sudan Pudasaini",
                  "Let's build systems that actually learn! 🚀"
              ],

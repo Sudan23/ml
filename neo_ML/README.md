@@ -1,6 +1,6 @@
 # 🤖 neo_ML — Modern Delivery: Machine Learning
 **The British College Nepal · Sudan Pudasaini · 2026–27**
-**Awarding: UWE Bristol · Level 6 · Module: UFCFAS-15-2**
+**Awarding: UWE Bristol · Level 5 · Module: UFCFAS-15-2**
 
 > Original university slides and notebooks remain in:
 > `../uni_ML/` ← **do not modify**

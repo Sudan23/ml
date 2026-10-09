@@ -4,7 +4,7 @@
 
 | | |
 |---|---|
-| **Awarding University** | UWE Bristol (Level 6) |
+| **Awarding University** | UWE Bristol (Level 5) |
 | **Delivered at** | The British College Nepal |
 | **Your Lecturer** | Sudan Pudasaini |
 
@@ -12,7 +12,7 @@
 
 Welcome to **Machine Learning**. This module is about building real ML systems — not just theory. You'll write Python code, train models, evaluate them, and think critically about what they actually learn.
 
-This year we're adding a modern layer on top: **Docker** for consistent environments, **GitHub Organization** for code and team accountability, **Orbund** for formal course submissions, and **AI coding tools** to help you explore faster — but never to replace your understanding.
+This year we're adding a modern layer on top: **Docker** for consistent environments, **GitHub Organization** for code and progression tracking, **Orbund** for formal course submissions, and **AI coding tools** to help you explore faster — but never to replace your understanding.
 
 Before our hands-on lab sessions, complete this setup. Everything is **free**.
 
@@ -23,7 +23,7 @@ Before our hands-on lab sessions, complete this setup. Everything is **free**.
 | Tool | What For | Cost |
 |------|----------|------|
 | **Docker Desktop** | Run JupyterLab locally — no server downtime or pip conflicts | Free |
-| **GitHub Organization** | Personal and group code repos; tracks your contributions | Free |
+| **GitHub Organization** | Personal code repository; tracks your weekly progression | Free |
 | **Orbund Portal** | Official TBC student portal for announcements, grades & submissions | Free |
 | **VS Code** | Edit Python scripts and notebooks outside Jupyter | Free |
 | **GitHub Copilot** | AI autocomplete for Python/ML code | Free (student) |
@@ -52,9 +52,7 @@ Once you join:
 - Create your personal course repo: `ml-2026-<your-github-username>`
 - Each week, your completed notebooks are pushed here — **all cells must be executed (outputs visible)**
 - Official assessment briefs, deadlines, and grade records are published on **Orbund**
-- Formal assessment reports and submission archives will be uploaded directly through **Orbund**
-
-> 📋 Group project teams will create a **shared group repo** in the organization in Week 5.
+- The final **individual project software and 6-page written report** will be submitted directly through **Orbund**
 
 ---
 
@@ -167,7 +165,7 @@ This module actively teaches you to use AI tools — **but also to be critical o
 | ✅ Encouraged | ❌ Not Allowed |
 |---|---|
 | Ask Copilot to generate model code, then evaluate it | Submit AI-written analysis as your own insights |
-| Use AI to explore hyperparameter choices | Have AI write your group project proposal |
+| Use AI to explore hyperparameter choices | Have AI write your 6-page project report |
 | Ask AI to explain what a confusion matrix shows | Use AI to fill in notebook markdown reflections |
 | Prompt AI to suggest a different dataset to try | Copy AI code without running or understanding it |
 
@@ -187,15 +185,16 @@ This module actively teaches you to use AI tools — **but also to be critical o
 
 ---
 
-## 📋 Assessment Reminders
+## 📋 Assessment Structure (Approved UWE Specification)
 
-| Component | Weight | Deadline | Platform |
-|-----------|--------|----------|----------|
-| Group Project Proposal | **10%** | Week 7 (in lab) | In-class + GitHub Org |
-| Individual Assignment | **30%** | Week 9 | Orbund + GitHub Org |
-| Group Project & Defense | **60%** | Week 12 hand-in | Orbund + GitHub Org |
+This module uses a **100% Individual Project** summative assessment model:
 
-Your GitHub repo commit history is evidence of your individual contribution to the group project. **If you don't commit, you don't get credit.**
+| Component | Weight | Deliverable | Description / Learning Outcomes |
+|-----------|--------|-------------|---------------------------------|
+| **Formative Practical Labs** | **0%** *(Continuous)* | Weekly in-lab notebook checkpoints | Hands-on exercises with one-to-one tutor feedback |
+| **Summative Individual Project** | **100%** | **Working Software + 6-Page Report** (Submitted via Orbund) | End-to-end ML solution addressing problem formulation, algorithm selection, implementation, evaluation & documentation (Tests **MO1, MO2, MO3**) |
+
+> 📌 **Note on Group Work:** The approved module specification specifies **Group Work: No**. All software and reports are individual submissions. Your Git commit history in the course organization verifies your personal authorship.
 
 ---
 

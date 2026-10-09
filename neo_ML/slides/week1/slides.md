@@ -83,7 +83,7 @@ style: |
 ### *Welcome, Expectations, Roadmap & Delivery*
 
 **The British College Nepal · Academic Year 2026–27**  
-**Awarding:** UWE Bristol · Level 6  
+**Awarding:** UWE Bristol · Level 5  
 **Lecturer & Module Lead (TBC):** Sudan Pudasaini  
 **Module Leader (UWE Bristol):** Prof. Jun Hong  
 
@@ -98,7 +98,7 @@ style: |
 * Who has previously trained a model with **Scikit-Learn, PyTorch, or TensorFlow**?
 * Who uses **GitHub Copilot, Gemini, or Claude** in daily development?
 
-> *"Machine learning at Level 6 is not about blindly copying library calls or memorizing math proofs. It is about understanding the mechanics of learning systems, writing production-grade code, and evaluating results honestly."*
+> *"Machine learning at Level 5 is not about blindly copying library calls or memorizing math proofs. It is about understanding the mechanics of learning systems, writing production-grade code, and evaluating results honestly."*
 
 ---
 
@@ -107,7 +107,7 @@ style: |
 | | Details |
 |---|---|
 | **Module Title** | Machine Learning (`UFCFAS-15-2`) |
-| **Level & Credits** | Level 6 · 15 UK Credits |
+| **Level & Credits** | Level 5 · 15 UK Credits (7.5 ECTS) |
 | **Awarding University** | **UWE Bristol** (University of the West of England) |
 | **Delivery Institution** | **The British College (TBC)**, Kathmandu, Nepal |
 | **Local Module Lead** | **Sudan Pudasaini** (Lectures, Labs, Mentorship) |
@@ -146,9 +146,9 @@ We meet **three times every week**. Each session has a distinct, purposeful role
 
 ---
 
-# 🎓 University Expectations (UWE Level 6 Rigor)
+# 🎓 University Expectations (UWE Level 5 Rigor)
 
-As final-year / Level 6 computing students, university standards require:
+As Level 5 computing students, university academic standards require:
 
 1. **Active Ownership:** You are the author and architect of your work. Passive attendance will not build working models.
 2. **Empirical Rigor:** You don't just say *"my model works"* — you justify it with confusion matrices, cross-validation, loss curves, and baseline comparisons.
@@ -165,8 +165,8 @@ As final-year / Level 6 computing students, university standards require:
   Notebooks pushed to the **course GitHub Organization** and submitted via **Orbund** must have executed cell outputs. Blank cells = zero grade.
 * 🌿 **3. Genuine Git Commit Cadence:**  
   Work incrementally with descriptive commit messages. A single mass-upload 10 minutes before the deadline is a major academic red flag.
-* 🤝 **4. Zero Team Ghosting:**  
-  Group project contributions are audited via Git commit blame. **No commits = No contribution mark.**
+* 🛡️ **4. Individual Authorship (No Free-Riders):**  
+  This is a **100% individual module**. Code authorship is tracked via Git commit history in your personal organization repository.
 
 ---
 
@@ -182,24 +182,30 @@ As final-year / Level 6 computing students, university standards require:
 * **Weeks 8–12: Deep Learning & Computer Vision**
   - Week 8: Artificial Neural Networks (ANN), Forward/Backpropagation
   - Week 9: Convolutional Neural Networks (CNN) & Image Classification
-  - Weeks 10–12: Deep Learning Group Project Implementation & Defense
+  - Weeks 10–12: Deep Learning Implementation, Tuning, Evaluation & Final Project Defense
 
 ---
 
-# 📊 Assessment Structure & Deadlines
+# 📊 Assessment Structure (Approved Specification)
+
+**100% Individual Summative Project + Continuous Formative Labs**
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ 1. Group Project Proposal (10%)        Due: Week 7 (Lab)    │
-│    Problem definition, dataset choice, baseline architecture│
+│ 1. Formative Practical Exercises (0%)  Continuous In-Lab   │
+│    Weekly lab worksheets with 1-on-1 tutor feedback         │
 ├─────────────────────────────────────────────────────────────┤
-│ 2. Individual Assignment (30%)         Due: Week 9 (Orbund) │
-│    Comparative study: 2 distinct ML algorithms on 1 dataset │
-│    Data pipeline, hyperparameter tuning, written report     │
-├─────────────────────────────────────────────────────────────┤
-│ 3. Group Project & Defense (60%)       Due: Week 12 (Orbund)│
-│    End-to-end Deep Learning system (CNN / DNN application)  │
-│    Full GitHub repo + working demo + team presentation      │
+│ 2. Summative Individual Project (100%) Final Submission     │
+│    • Deliverable A: Production of Working Software          │
+│      End-to-end ML solution applied to a real-world problem │
+│    • Deliverable B: 6-Page Technical Written Report         │
+│      Online submission via Orbund following UWE guidelines: │
+│      - Problem identification, analysis & formulation       │
+│      - Algorithm selection & application                    │
+│      - Implementation, testing & empirical evaluation       │
+│      - Ethical, societal implications & documentation       │
+│    • Learning Outcomes Tested: MO1, MO2, MO3                │
+│    • Group Work: NO (100% Individual Project)               │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -231,7 +237,7 @@ We encourage you to use it — **with strict rules of engagement**:
 |---|---|
 | Asking AI to explain error stack traces | Copying code blocks you cannot explain line-by-line |
 | Querying syntax or library documentation | Generating assignment report text or conclusions |
-| Exploring hyperparameter combinations | Having AI write your group project proposal |
+| Exploring hyperparameter combinations | Having AI write your 6-page project report |
 | Generating unit tests & data visualizations | Blindly submitting unverified AI code |
 
 > **Weekly Requirement:** Every push requires a 5-line `REFLECTION.md` documenting what you asked AI, what it suggested, what you verified, and what you learned.
@@ -284,7 +290,7 @@ Complete these **before our next session**:
 
 * Questions on the syllabus, schedule, or assessments?
 * Questions on Docker, GitHub Organization, or Orbund?
-* Questions on AI policies or team allocations?
+* Questions on AI policies or the 6-page project report?
 
 **Lecturer:** Sudan Pudasaini  
 **Email & Support:** Available via TBC Faculty & GitHub Discussions  
